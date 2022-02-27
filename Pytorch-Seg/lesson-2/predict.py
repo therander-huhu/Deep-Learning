@@ -12,7 +12,9 @@ def getResDir(originDir):
         if i < len(dirs) - 1:
             newDir += dirs[i] + '/'
         else:
-            newDir += '/res/' + dirs[i]
+            newDir += 'res/' + dirs[i]
+
+    return newDir
 
 
 if __name__ == "__main__":
@@ -32,8 +34,8 @@ if __name__ == "__main__":
     for test_path in tests_path:
         # 保存结果地址
         # save_res_path = test_path.split('.')[0] + '_res.png'
-        print(save_res_path)
-        save_res_path = getResDir(save_res_path)
+        print(test_path)
+        save_res_path = getResDir(test_path)
         print(save_res_path)
         # 读取图片
         img = cv2.imread(test_path)
@@ -53,4 +55,5 @@ if __name__ == "__main__":
         pred[pred >= 0.5] = 255
         pred[pred < 0.5] = 0
         # 保存图片
+
         cv2.imwrite(save_res_path, pred)
