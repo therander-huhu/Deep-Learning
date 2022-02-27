@@ -21,7 +21,7 @@ if __name__ == "__main__":
     # 选择设备，有cuda用cuda，没有就用cpu
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     # 加载网络，图片单通道，分类为1。
-    net = UNet(n_channels=1, n_classes=1)
+    net = UNet(n_channels=1, n_classes=3)
     # 将网络拷贝到deivce中
     net.to(device=device)
     # 加载模型参数
@@ -49,11 +49,26 @@ if __name__ == "__main__":
         img_tensor = img_tensor.to(device=device, dtype=torch.float32)
         # 预测
         pred = net(img_tensor)
+        print(pred.shape)
+        print(pred[0][0].shape)
+        print(pred[0][1].shape)
+        
+        pred[0][0] = torch.maximum(pred[0][0], pred[0][1])
+        pred[0][0] = torch.maximum(pred[0][0], pred[0][2])
+        
         # 提取结果
         pred = np.array(pred.data.cpu()[0])[0]
+        print(pred.shape)
+        print(type(pred))
+        print(pred.min())
+        print(pred.mean())
+        print(pred.max())
         # 处理结果
-        pred[pred >= 0.5] = 38
+        pred[pred < 0.5] = 0
         pred[pred >= 1.5] = 75
+        pred[(pred >= 0.5) * (pred < 1.5)] = 38
+        
+        print(torch.tensor(pred).unique())
         # 保存图片
 
         cv2.imwrite(save_res_path, pred)

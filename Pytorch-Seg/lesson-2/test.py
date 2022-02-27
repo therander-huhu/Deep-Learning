@@ -1,13 +1,11 @@
-# def getResDir(originDir):
-#     dirs = originDir.split('/')
-#     newDir = ''
-#     for i in range(len(dirs)):
-#         if i < len(dirs) - 1:
-#             newDir += dirs[i] + '/'
-#         else:
-#             newDir += 'res/' + dirs[i]
+import torch
+import numpy as np
+import torch.nn as nn
+import torch.nn.functional as F
 
-#     return newDir
 
-# dir = 'data/test/8.png'
-# print(getResDir(dir))
+a = [True, False, True]
+b = [False, True, False]
+c = np.array(a) + np.array(b)
+print(type(c))
+print(c)
