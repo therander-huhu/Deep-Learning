@@ -5,6 +5,16 @@ import os
 import cv2
 from model.unet_model import UNet
 
+def getResDir(originDir):
+    dirs = originDir.split('/')
+    newDir = ''
+    for i in range(len(dirs)):
+        if i < len(dirs) - 1:
+            newDir += dirs[i] + '/'
+        else:
+            newDir += '/res/' + dirs[i]
+
+
 if __name__ == "__main__":
     # 选择设备，有cuda用cuda，没有就用cpu
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -21,7 +31,10 @@ if __name__ == "__main__":
     # 遍历素有图片
     for test_path in tests_path:
         # 保存结果地址
-        save_res_path = test_path.split('.')[0] + '_res.png'
+        # save_res_path = test_path.split('.')[0] + '_res.png'
+        print(save_res_path)
+        save_res_path = getResDir(save_res_path)
+        print(save_res_path)
         # 读取图片
         img = cv2.imread(test_path)
         # 转为灰度图
