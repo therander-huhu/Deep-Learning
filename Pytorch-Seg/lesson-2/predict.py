@@ -29,7 +29,7 @@ if __name__ == "__main__":
     # 测试模式
     net.eval()
     # 读取所有图片路径
-    tests_path = glob.glob('data/test/*.png')
+    tests_path = glob.glob('data/real_test/*.jpg')
     # 遍历素有图片
     for test_path in tests_path:
         # 保存结果地址
@@ -52,8 +52,8 @@ if __name__ == "__main__":
         # 提取结果
         pred = np.array(pred.data.cpu()[0])[0]
         # 处理结果
-        pred[pred >= 0.5] = 255
-        pred[pred < 0.5] = 0
+        pred[pred >= 0.5] = 38
+        pred[pred >= 1.5] = 75
         # 保存图片
 
         cv2.imwrite(save_res_path, pred)
