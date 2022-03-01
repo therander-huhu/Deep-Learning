@@ -14,7 +14,7 @@ def getResDir(originDir):
         else:
             newDir += 'res/' + dirs[i]
 
-    return newDir
+    return newDir.replace('jpg', "png")
 
 
 if __name__ == "__main__":
@@ -67,7 +67,8 @@ if __name__ == "__main__":
         pred[pred >= 1.5] = 75
         pred[(pred >= 0.5) * (pred < 1.5)] = 38
         
-        #print(torch.tensor(pred).unique())
+        print(torch.tensor(pred).unique())
         # 保存图片
 
-        cv2.imwrite(save_res_path, pred)
+        cv2.imwrite(save_res_path, pred, [int(cv2.IMWRITE_PNG_COMPRESSION), 0])
+        # break;
