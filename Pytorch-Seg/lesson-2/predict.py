@@ -49,26 +49,25 @@ if __name__ == "__main__":
         img_tensor = img_tensor.to(device=device, dtype=torch.float32)
         # 预测
         pred = net(img_tensor)
-        print(pred.shape)
-        print(pred[0][0].shape)
-        print(pred[0][1].shape)
+        #print(pred.shape)
+        #print(pred[0][0].shape)
+        #print(pred[0][1].shape)
         
-        pred[0][0] = torch.maximum(pred[0][0], pred[0][1])
-        pred[0][0] = torch.maximum(pred[0][0], pred[0][2])
         
         # 提取结果
-        pred = np.array(pred.data.cpu()[0])[0]
-        print(pred.shape)
-        print(type(pred))
-        print(pred.min())
-        print(pred.mean())
-        print(pred.max())
+        pred = np.array(pred.data.cpu())
+        pred = np.argmax(pred, axis = 1)[0]
+        #print(pred.shape)
+        #print(type(pred))
+        #print(pred.min())
+        #print(pred.mean())
+        #print(pred.max())
         # 处理结果
         pred[pred < 0.5] = 0
         pred[pred >= 1.5] = 75
         pred[(pred >= 0.5) * (pred < 1.5)] = 38
         
-        print(torch.tensor(pred).unique())
+        #print(torch.tensor(pred).unique())
         # 保存图片
 
         cv2.imwrite(save_res_path, pred)
